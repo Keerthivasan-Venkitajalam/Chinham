@@ -1,0 +1,44 @@
+buildscript {
+    ext.kotlin_version = '1.8.0' // Ensure the Kotlin version is compatible with your setup
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.1.0' // Ensure compatibility with your setup
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+// Root Project build directory configuration
+rootProject.buildDir = '../build'
+
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+// Define the clean task
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
+
+// Additional configuration for Android Gradle Plugin (AGP) and namespace
+tasks.withType(com.android.build.gradle.AppPlugin).configureEach {
+    // Adding the namespace under the app plugin section
+    android {
+        // Set the default namespace for the project
+        namespace 'com.example.signify' // Make sure to use your app's unique namespace
+    }
+}
