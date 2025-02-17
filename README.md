@@ -1,4 +1,4 @@
-# SIGNify
+# Chinham
 
 ## Purpose:
 
